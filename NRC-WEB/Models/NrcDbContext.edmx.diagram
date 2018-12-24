@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1c1724ca57384df0be0c8012c2f47e61" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="Model.City" Width="1.5" PointX="9.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.PaymentMethod" Width="1.5" PointX="10.375" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ScheduleDayOfTheWeek" Width="1.5" PointX="0.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ScheduleStation" Width="1.5" PointX="5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Station" Width="1.5" PointX="6.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TrainType" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TrainTypeTravelClass" Width="1.5" PointX="2.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TravelClass" Width="1.5" PointX="4" PointY="0.625" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Stations_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ScheduleStation_Stations" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TrainTypeTravelClass_TrainTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TrainTypeTravelClass_TravelClasses" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.ScheduleTravelClass" Width="1.5" PointX="2.625" PointY="3" />
+        <AssociationConnector Association="Model.FK_ScheduleTravelClass_TravelClasses" />
+        <EntityTypeShape EntityType="Model.DayOfTheWeek" Width="1.5" PointX="2.625" PointY="6.125" />
+        <AssociationConnector Association="Model.FK_ScheduleDayOfTheWeek_DayOfTheWeek" />
+        <EntityTypeShape EntityType="Model.Ticket" Width="1.5" PointX="4.875" PointY="2.75" />
+        <AssociationConnector Association="Model.FK_Tickets_ScheduleTravelClass" />
+        <EntityTypeShape EntityType="Model.Booking" Width="1.5" PointX="7.75" PointY="3" />
+        <AssociationConnector Association="Model.FK_Bookings_PaymentMethods" />
+        <AssociationConnector Association="Model.FK_Tickets_Bookings" />
+        <EntityTypeShape EntityType="Model.Schedule" Width="1.5" PointX="2.75" PointY="8.5" />
+        <AssociationConnector Association="Model.FK_ScheduleDayOfTheWeek_Schedules" />
+        <AssociationConnector Association="Model.FK_Schedules_TrainTypes" />
+        <AssociationConnector Association="Model.FK_ScheduleStation_Schedules" />
+        <AssociationConnector Association="Model.FK_ScheduleTravelClass_Schedules" />
+        <AssociationConnector Association="Model.FK_Bookings_Bookings" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

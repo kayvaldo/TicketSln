@@ -1,0 +1,67 @@
+﻿@model NRC_WEB.Models.Schedule
+
+@{
+    ViewBag.Title = "Schedule Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Schedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DurationInMinutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DurationInMinutes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOfDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeOfDay)
+        </dd>
+
+        <dt>
+            Train Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrainType.Name)
+        </dd>
+        <dt>
+            Scheduled Days
+        </dt>
+        <dd>
+            @string.Join(",", Model.ScheduleDayOfTheWeeks.Where(x => x.IsActive).Select(y => y.DayOfTheWeek.Name))
+        </dd>
+
+        @foreach (var item in Model.ScheduleTravelClasses)
+        {
+            <dt>
+                @item.TravelClass.Name Class
+            </dt>
+            <dd>
+                @item.NumberOfSeats seats at @item.Price
+            </dd>
+        }
+
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

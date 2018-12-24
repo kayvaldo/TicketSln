@@ -1,0 +1,152 @@
+﻿@model NRC_WEB.Models.Booking
+
+@{
+    ViewBag.Title = "Booking Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Booking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Model.Date.Value.ToLongDateString()
+        </dd>
+
+        <dt>
+            Payment Method
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentMethod.Name)
+        </dd>
+
+        <dt>
+            Boarding Station
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Station.Name)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.ScheduleTravelClass.Schedule.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleTravelClass.Schedule.Name)
+        </dd>*@
+        <dt>
+            Number of Tickets
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfTickets.Value)
+        </dd>
+    </dl>
+</div>
+<div style="overflow:auto">
+    @foreach (var item in Model.Tickets)
+    {
+        <div class="col-md-8" style="padding-right:0">
+            <table class="table table-bordered table-striped table-hover">
+                <caption>Ticket @item.TicketNumber</caption>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="control-label">Ticket Number:</label>
+                        </td>
+                        <td>
+                            @item.TicketNumber
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label">Schedule:</label>
+                        </td>
+                        <td>
+                            @item.ScheduleTravelClass.Schedule.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label">Boarding Station:</label>
+                        </td>
+                        <td>
+                            @Model.Station.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label">Travel Class:</label>
+                        </td>
+                        <td>
+                            @item.ScheduleTravelClass.TravelClass.Name
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label"> Date:</label>
+                        </td>
+                        <td>
+                            @Model.Date.Value.ToLongDateString()
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label"> Time:</label>
+                        </td>
+                        <td>
+                            @item.ScheduleTravelClass.Schedule.TimeOfDay
+                        </td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4" style="padding-left:0">
+            <table class="" style="margin-top:1.5em">
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="@item.BarcodeUri" style="width:18em;height:18em" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

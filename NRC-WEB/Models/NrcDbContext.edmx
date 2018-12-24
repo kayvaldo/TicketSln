@@ -1,0 +1,923 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaymentMethodId" Type="int" />
+          <Property Name="Date" Type="datetime2" Precision="7" />
+          <Property Name="ScheduleTravelClassId" Type="int" />
+          <Property Name="NumberOfTickets" Type="int" />
+          <Property Name="BoardingStationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DayOfTheWeek">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleDayOfTheWeek">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="DayOfTheWeekId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DurationInMinutes" Type="int" Nullable="false" />
+          <Property Name="TrainTypeId" Type="int" />
+          <Property Name="TimeOfDay" Type="time" Precision="7" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleStation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="StationId" Type="int" Nullable="false" />
+          <Property Name="Location" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleTravelClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScheduleId" Type="int" Nullable="false" />
+          <Property Name="TravelClassId" Type="int" Nullable="false" />
+          <Property Name="NumberOfSeats" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Stations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BookingId" Type="int" Nullable="false" />
+          <Property Name="ScheduleTravelClassId" Type="int" Nullable="false" />
+          <Property Name="BarcodeUri" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrainTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrainTypeTravelClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainTypeId" Type="int" />
+          <Property Name="TravelClassId" Type="int" />
+          <Property Name="NumberOfSeats" Type="int" />
+        </EntityType>
+        <EntityType Name="TravelClasses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Bookings_Bookings">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="BoardingStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_PaymentMethods">
+          <End Role="PaymentMethods" Type="Self.PaymentMethods" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleDayOfTheWeek_DayOfTheWeek">
+          <End Role="DayOfTheWeek" Type="Self.DayOfTheWeek" Multiplicity="1" />
+          <End Role="ScheduleDayOfTheWeek" Type="Self.ScheduleDayOfTheWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayOfTheWeek">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleDayOfTheWeek">
+              <PropertyRef Name="DayOfTheWeekId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleDayOfTheWeek_Schedules">
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="1" />
+          <End Role="ScheduleDayOfTheWeek" Type="Self.ScheduleDayOfTheWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedules">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleDayOfTheWeek">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedules_TrainTypes">
+          <End Role="TrainTypes" Type="Self.TrainTypes" Multiplicity="0..1" />
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedules">
+              <PropertyRef Name="TrainTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleStation_Schedules">
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="1" />
+          <End Role="ScheduleStation" Type="Self.ScheduleStation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedules">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleStation">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleStation_Stations">
+          <End Role="Stations" Type="Self.Stations" Multiplicity="1" />
+          <End Role="ScheduleStation" Type="Self.ScheduleStation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleStation">
+              <PropertyRef Name="StationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleTravelClass_Schedules">
+          <End Role="Schedules" Type="Self.Schedules" Multiplicity="1" />
+          <End Role="ScheduleTravelClass" Type="Self.ScheduleTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedules">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleTravelClass">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleTravelClass_TravelClasses">
+          <End Role="TravelClasses" Type="Self.TravelClasses" Multiplicity="1" />
+          <End Role="ScheduleTravelClass" Type="Self.ScheduleTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelClasses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleTravelClass">
+              <PropertyRef Name="TravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stations_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="Stations" Type="Self.Stations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stations">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_ScheduleTravelClass">
+          <End Role="ScheduleTravelClass" Type="Self.ScheduleTravelClass" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleTravelClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="ScheduleTravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainTypeTravelClass_TrainTypes">
+          <End Role="TrainTypes" Type="Self.TrainTypes" Multiplicity="0..1" />
+          <End Role="TrainTypeTravelClass" Type="Self.TrainTypeTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrainTypeTravelClass">
+              <PropertyRef Name="TrainTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainTypeTravelClass_TravelClasses">
+          <End Role="TravelClasses" Type="Self.TravelClasses" Multiplicity="0..1" />
+          <End Role="TrainTypeTravelClass" Type="Self.TrainTypeTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelClasses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrainTypeTravelClass">
+              <PropertyRef Name="TravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DayOfTheWeek" EntityType="Self.DayOfTheWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleDayOfTheWeek" EntityType="Self.ScheduleDayOfTheWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleStation" EntityType="Self.ScheduleStation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleTravelClass" EntityType="Self.ScheduleTravelClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stations" EntityType="Self.Stations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainTypes" EntityType="Self.TrainTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainTypeTravelClass" EntityType="Self.TrainTypeTravelClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelClasses" EntityType="Self.TravelClasses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bookings_Bookings" Association="Self.FK_Bookings_Bookings">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_PaymentMethods" Association="Self.FK_Bookings_PaymentMethods">
+            <End Role="PaymentMethods" EntitySet="PaymentMethods" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleDayOfTheWeek_DayOfTheWeek" Association="Self.FK_ScheduleDayOfTheWeek_DayOfTheWeek">
+            <End Role="DayOfTheWeek" EntitySet="DayOfTheWeek" />
+            <End Role="ScheduleDayOfTheWeek" EntitySet="ScheduleDayOfTheWeek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleDayOfTheWeek_Schedules" Association="Self.FK_ScheduleDayOfTheWeek_Schedules">
+            <End Role="Schedules" EntitySet="Schedules" />
+            <End Role="ScheduleDayOfTheWeek" EntitySet="ScheduleDayOfTheWeek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedules_TrainTypes" Association="Self.FK_Schedules_TrainTypes">
+            <End Role="TrainTypes" EntitySet="TrainTypes" />
+            <End Role="Schedules" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleStation_Schedules" Association="Self.FK_ScheduleStation_Schedules">
+            <End Role="Schedules" EntitySet="Schedules" />
+            <End Role="ScheduleStation" EntitySet="ScheduleStation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleStation_Stations" Association="Self.FK_ScheduleStation_Stations">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="ScheduleStation" EntitySet="ScheduleStation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleTravelClass_Schedules" Association="Self.FK_ScheduleTravelClass_Schedules">
+            <End Role="Schedules" EntitySet="Schedules" />
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleTravelClass_TravelClasses" Association="Self.FK_ScheduleTravelClass_TravelClasses">
+            <End Role="TravelClasses" EntitySet="TravelClasses" />
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stations_Cities" Association="Self.FK_Stations_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Stations" EntitySet="Stations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Bookings" Association="Self.FK_Tickets_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_ScheduleTravelClass" Association="Self.FK_Tickets_ScheduleTravelClass">
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClass" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainTypeTravelClass_TrainTypes" Association="Self.FK_TrainTypeTravelClass_TrainTypes">
+            <End Role="TrainTypes" EntitySet="TrainTypes" />
+            <End Role="TrainTypeTravelClass" EntitySet="TrainTypeTravelClass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainTypeTravelClass_TravelClasses" Association="Self.FK_TrainTypeTravelClass_TravelClasses">
+            <End Role="TravelClasses" EntitySet="TravelClasses" />
+            <End Role="TrainTypeTravelClass" EntitySet="TrainTypeTravelClass" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Stations" Relationship="Self.FK_Stations_Cities" FromRole="Cities" ToRole="Stations" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Model.FK_Bookings_PaymentMethods" FromRole="PaymentMethod" ToRole="Booking" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleDayOfTheWeek">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="DayOfTheWeekId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DayOfTheWeek" Relationship="Model.FK_ScheduleDayOfTheWeek_DayOfTheWeek" FromRole="ScheduleDayOfTheWeek" ToRole="DayOfTheWeek" />
+          <NavigationProperty Name="Schedule" Relationship="Model.FK_ScheduleDayOfTheWeek_Schedules" FromRole="ScheduleDayOfTheWeek" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="ScheduleStation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="StationId" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Station" Relationship="Self.FK_ScheduleStation_Stations" FromRole="ScheduleStation" ToRole="Stations" />
+          <NavigationProperty Name="Schedule" Relationship="Model.FK_ScheduleStation_Schedules" FromRole="ScheduleStation" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.FK_Stations_Cities" FromRole="Stations" ToRole="Cities" />
+          <NavigationProperty Name="ScheduleStations" Relationship="Self.FK_ScheduleStation_Stations" FromRole="Stations" ToRole="ScheduleStation" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Model.FK_Bookings_Bookings" FromRole="Station" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="TrainType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TrainTypeTravelClasses" Relationship="Self.FK_TrainTypeTravelClass_TrainTypes" FromRole="TrainTypes" ToRole="TrainTypeTravelClass" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Schedules" Relationship="Model.FK_Schedules_TrainTypes" FromRole="TrainType" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="TrainTypeTravelClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainTypeId" Type="Int32" />
+          <Property Name="TravelClassId" Type="Int32" />
+          <Property Name="NumberOfSeats" Type="Int32" />
+          <NavigationProperty Name="TrainType" Relationship="Self.FK_TrainTypeTravelClass_TrainTypes" FromRole="TrainTypeTravelClass" ToRole="TrainTypes" />
+          <NavigationProperty Name="TravelClass" Relationship="Self.FK_TrainTypeTravelClass_TravelClasses" FromRole="TrainTypeTravelClass" ToRole="TravelClasses" />
+        </EntityType>
+        <EntityType Name="TravelClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TrainTypeTravelClasses" Relationship="Self.FK_TrainTypeTravelClass_TravelClasses" FromRole="TravelClasses" ToRole="TrainTypeTravelClass" />
+          <NavigationProperty Name="ScheduleTravelClasses" Relationship="Model.FK_ScheduleTravelClass_TravelClasses" FromRole="TravelClass" ToRole="ScheduleTravelClass" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Stations_Cities">
+          <End Role="Cities" Type="Self.City" Multiplicity="1" />
+          <End Role="Stations" Type="Self.Station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stations">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleStation_Stations">
+          <End Role="Stations" Type="Self.Station" Multiplicity="1" />
+          <End Role="ScheduleStation" Type="Self.ScheduleStation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleStation">
+              <PropertyRef Name="StationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainTypeTravelClass_TrainTypes">
+          <End Role="TrainTypes" Type="Self.TrainType" Multiplicity="0..1" />
+          <End Role="TrainTypeTravelClass" Type="Self.TrainTypeTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrainTypeTravelClass">
+              <PropertyRef Name="TrainTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainTypeTravelClass_TravelClasses">
+          <End Role="TravelClasses" Type="Self.TravelClass" Multiplicity="0..1" />
+          <End Role="TrainTypeTravelClass" Type="Self.TrainTypeTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelClasses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrainTypeTravelClass">
+              <PropertyRef Name="TravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NrcDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
+          <EntitySet Name="ScheduleDayOfTheWeeks" EntityType="Self.ScheduleDayOfTheWeek" />
+          <EntitySet Name="ScheduleStations" EntityType="Self.ScheduleStation" />
+          <EntitySet Name="Stations" EntityType="Self.Station" />
+          <EntitySet Name="TrainTypes" EntityType="Self.TrainType" />
+          <EntitySet Name="TrainTypeTravelClasses" EntityType="Self.TrainTypeTravelClass" />
+          <EntitySet Name="TravelClasses" EntityType="Self.TravelClass" />
+          <AssociationSet Name="FK_Stations_Cities" Association="Self.FK_Stations_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Stations" EntitySet="Stations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleStation_Stations" Association="Self.FK_ScheduleStation_Stations">
+            <End Role="Stations" EntitySet="Stations" />
+            <End Role="ScheduleStation" EntitySet="ScheduleStations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainTypeTravelClass_TrainTypes" Association="Self.FK_TrainTypeTravelClass_TrainTypes">
+            <End Role="TrainTypes" EntitySet="TrainTypes" />
+            <End Role="TrainTypeTravelClass" EntitySet="TrainTypeTravelClasses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainTypeTravelClass_TravelClasses" Association="Self.FK_TrainTypeTravelClass_TravelClasses">
+            <End Role="TravelClasses" EntitySet="TravelClasses" />
+            <End Role="TrainTypeTravelClass" EntitySet="TrainTypeTravelClasses" />
+          </AssociationSet>
+          <EntitySet Name="ScheduleTravelClasses" EntityType="Model.ScheduleTravelClass" />
+          <AssociationSet Name="FK_ScheduleTravelClass_TravelClasses" Association="Model.FK_ScheduleTravelClass_TravelClasses">
+            <End Role="TravelClass" EntitySet="TravelClasses" />
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClasses" />
+          </AssociationSet>
+          <EntitySet Name="DayOfTheWeeks" EntityType="Model.DayOfTheWeek" />
+          <AssociationSet Name="FK_ScheduleDayOfTheWeek_DayOfTheWeek" Association="Model.FK_ScheduleDayOfTheWeek_DayOfTheWeek">
+            <End Role="DayOfTheWeek" EntitySet="DayOfTheWeeks" />
+            <End Role="ScheduleDayOfTheWeek" EntitySet="ScheduleDayOfTheWeeks" />
+          </AssociationSet>
+          <EntitySet Name="Tickets" EntityType="Model.Ticket" />
+          <AssociationSet Name="FK_Tickets_ScheduleTravelClass" Association="Model.FK_Tickets_ScheduleTravelClass">
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClasses" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="Bookings" EntityType="Model.Booking" />
+          <AssociationSet Name="FK_Bookings_PaymentMethods" Association="Model.FK_Bookings_PaymentMethods">
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Bookings" Association="Model.FK_Tickets_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="Schedules" EntityType="Model.Schedule" />
+          <AssociationSet Name="FK_ScheduleDayOfTheWeek_Schedules" Association="Model.FK_ScheduleDayOfTheWeek_Schedules">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="ScheduleDayOfTheWeek" EntitySet="ScheduleDayOfTheWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedules_TrainTypes" Association="Model.FK_Schedules_TrainTypes">
+            <End Role="TrainType" EntitySet="TrainTypes" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleStation_Schedules" Association="Model.FK_ScheduleStation_Schedules">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="ScheduleStation" EntitySet="ScheduleStations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduleTravelClass_Schedules" Association="Model.FK_ScheduleTravelClass_Schedules">
+            <End Role="Schedule" EntitySet="Schedules" />
+            <End Role="ScheduleTravelClass" EntitySet="ScheduleTravelClasses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bookings_Bookings" Association="Model.FK_Bookings_Bookings">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ScheduleTravelClass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="TravelClassId" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfSeats" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="TravelClass" Relationship="Model.FK_ScheduleTravelClass_TravelClasses" FromRole="ScheduleTravelClass" ToRole="TravelClass" />
+          <NavigationProperty Name="Tickets" Relationship="Model.FK_Tickets_ScheduleTravelClass" FromRole="ScheduleTravelClass" ToRole="Ticket" />
+          <NavigationProperty Name="Schedule" Relationship="Model.FK_ScheduleTravelClass_Schedules" FromRole="ScheduleTravelClass" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_ScheduleTravelClass_TravelClasses">
+          <End Type="Model.TravelClass" Role="TravelClass" Multiplicity="1" />
+          <End Type="Model.ScheduleTravelClass" Role="ScheduleTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleTravelClass">
+              <PropertyRef Name="TravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DayOfTheWeek">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ScheduleDayOfTheWeeks" Relationship="Model.FK_ScheduleDayOfTheWeek_DayOfTheWeek" FromRole="DayOfTheWeek" ToRole="ScheduleDayOfTheWeek" />
+        </EntityType>
+        <Association Name="FK_ScheduleDayOfTheWeek_DayOfTheWeek">
+          <End Type="Model.DayOfTheWeek" Role="DayOfTheWeek" Multiplicity="1" />
+          <End Type="Model.ScheduleDayOfTheWeek" Role="ScheduleDayOfTheWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayOfTheWeek">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleDayOfTheWeek">
+              <PropertyRef Name="DayOfTheWeekId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BookingId" Type="Int32" Nullable="false" />
+          <Property Name="ScheduleTravelClassId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ScheduleTravelClass" Relationship="Model.FK_Tickets_ScheduleTravelClass" FromRole="Ticket" ToRole="ScheduleTravelClass" />
+          <NavigationProperty Name="Booking" Relationship="Model.FK_Tickets_Bookings" FromRole="Ticket" ToRole="Booking" />
+          <Property Name="BarcodeUri" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Tickets_ScheduleTravelClass">
+          <End Type="Model.ScheduleTravelClass" Role="ScheduleTravelClass" Multiplicity="1" />
+          <End Type="Model.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleTravelClass">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="ScheduleTravelClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMethodId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="7" />
+          <Property Name="ScheduleTravelClassId" Type="Int32" />
+          <Property Name="NumberOfTickets" Type="Int32" />
+          <NavigationProperty Name="PaymentMethod" Relationship="Model.FK_Bookings_PaymentMethods" FromRole="Booking" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Tickets" Relationship="Model.FK_Tickets_Bookings" FromRole="Booking" ToRole="Ticket" />
+          <Property Name="BoardingStationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Station" Relationship="Model.FK_Bookings_Bookings" FromRole="Booking" ToRole="Station" />
+        </EntityType>
+        <Association Name="FK_Bookings_PaymentMethods">
+          <End Type="Model.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Bookings">
+          <End Type="Model.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="Model.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DurationInMinutes" Type="Int32" Nullable="false" />
+          <Property Name="TrainTypeId" Type="Int32" />
+          <Property Name="TimeOfDay" Type="Time" Precision="7" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ScheduleDayOfTheWeeks" Relationship="Model.FK_ScheduleDayOfTheWeek_Schedules" FromRole="Schedule" ToRole="ScheduleDayOfTheWeek" />
+          <NavigationProperty Name="TrainType" Relationship="Model.FK_Schedules_TrainTypes" FromRole="Schedule" ToRole="TrainType" />
+          <NavigationProperty Name="ScheduleStations" Relationship="Model.FK_ScheduleStation_Schedules" FromRole="Schedule" ToRole="ScheduleStation" />
+          <NavigationProperty Name="ScheduleTravelClasses" Relationship="Model.FK_ScheduleTravelClass_Schedules" FromRole="Schedule" ToRole="ScheduleTravelClass" />
+        </EntityType>
+        <Association Name="FK_ScheduleDayOfTheWeek_Schedules">
+          <End Type="Model.Schedule" Role="Schedule" Multiplicity="1" />
+          <End Type="Model.ScheduleDayOfTheWeek" Role="ScheduleDayOfTheWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleDayOfTheWeek">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedules_TrainTypes">
+          <End Type="Model.TrainType" Role="TrainType" Multiplicity="0..1" />
+          <End Type="Model.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TrainTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleStation_Schedules">
+          <End Type="Model.Schedule" Role="Schedule" Multiplicity="1" />
+          <End Type="Model.ScheduleStation" Role="ScheduleStation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleStation">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduleTravelClass_Schedules">
+          <End Type="Model.Schedule" Role="Schedule" Multiplicity="1" />
+          <End Type="Model.ScheduleTravelClass" Role="ScheduleTravelClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScheduleTravelClass">
+              <PropertyRef Name="ScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bookings_Bookings">
+          <End Type="Model.Station" Role="Station" Multiplicity="1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="BoardingStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="NrcDbContext">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="Model.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="Model.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethods">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleDayOfTheWeeks">
+            <EntityTypeMapping TypeName="Model.ScheduleDayOfTheWeek">
+              <MappingFragment StoreEntitySet="ScheduleDayOfTheWeek">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="DayOfTheWeekId" ColumnName="DayOfTheWeekId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleStations">
+            <EntityTypeMapping TypeName="Model.ScheduleStation">
+              <MappingFragment StoreEntitySet="ScheduleStation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="StationId" ColumnName="StationId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="Model.Station">
+              <MappingFragment StoreEntitySet="Stations">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainTypes">
+            <EntityTypeMapping TypeName="Model.TrainType">
+              <MappingFragment StoreEntitySet="TrainTypes">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainTypeTravelClasses">
+            <EntityTypeMapping TypeName="Model.TrainTypeTravelClass">
+              <MappingFragment StoreEntitySet="TrainTypeTravelClass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TrainTypeId" ColumnName="TrainTypeId" />
+                <ScalarProperty Name="TravelClassId" ColumnName="TravelClassId" />
+                <ScalarProperty Name="NumberOfSeats" ColumnName="NumberOfSeats" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelClasses">
+            <EntityTypeMapping TypeName="Model.TravelClass">
+              <MappingFragment StoreEntitySet="TravelClasses">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleTravelClasses">
+            <EntityTypeMapping TypeName="Model.ScheduleTravelClass">
+              <MappingFragment StoreEntitySet="ScheduleTravelClass">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NumberOfSeats" ColumnName="NumberOfSeats" />
+                <ScalarProperty Name="TravelClassId" ColumnName="TravelClassId" />
+                <ScalarProperty Name="ScheduleId" ColumnName="ScheduleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DayOfTheWeeks">
+            <EntityTypeMapping TypeName="Model.DayOfTheWeek">
+              <MappingFragment StoreEntitySet="DayOfTheWeek">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="Model.Ticket">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="BarcodeUri" ColumnName="BarcodeUri" />
+                <ScalarProperty Name="ScheduleTravelClassId" ColumnName="ScheduleTravelClassId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="Model.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="BoardingStationId" ColumnName="BoardingStationId" />
+                <ScalarProperty Name="NumberOfTickets" ColumnName="NumberOfTickets" />
+                <ScalarProperty Name="ScheduleTravelClassId" ColumnName="ScheduleTravelClassId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="Model.Schedule">
+              <MappingFragment StoreEntitySet="Schedules">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="TimeOfDay" ColumnName="TimeOfDay" />
+                <ScalarProperty Name="TrainTypeId" ColumnName="TrainTypeId" />
+                <ScalarProperty Name="DurationInMinutes" ColumnName="DurationInMinutes" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

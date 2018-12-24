@@ -1,0 +1,88 @@
+﻿@model IEnumerable<NRC_WEB.Models.Booking>
+
+@{
+    ViewBag.Title = "Bookings";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateBooking")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Customer Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Payment Method
+        </th>
+        @*<th>
+            Schedule
+        </th>*@
+        @*<th>
+            Travel Class
+        </th>*@
+        @*<th>
+            Time
+        </th>*@
+        <th>
+            Number of Tickets
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentMethod.Name)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Tickets.First().ScheduleTravelClass.Schedule.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tickets.First().ScheduleTravelClass.Schedule.TimeOfDay)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ScheduleTravelClass.Schedule.Name)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ScheduleTravelClass.TravelClass.Name)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Tickets.First().ScheduleTravelClass.Schedule.TimeOfDay)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfTickets)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

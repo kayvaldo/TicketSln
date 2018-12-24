@@ -1,0 +1,12 @@
+﻿@using NRC_WEB.Models
+@model IEnumerable<Station>
+
+@if (Model != null && Model.Any())
+{
+    @*<option disabled>Select Station</option>*@
+
+    foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+}

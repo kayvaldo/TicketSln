@@ -1,0 +1,154 @@
+﻿@using NRC_WEB.Models
+@model IEnumerable<ScheduleTravelClass>
+
+@{
+    Dictionary<int, int> bookingsDictionary = (Dictionary<int, int>)ViewBag.BookingsDictionary;
+    var date = (DateTime)ViewBag.Date;
+    var bookingsGrouping = (IEnumerable<IGrouping<int?, Booking>>)ViewBag.BookingGroups;
+    int i = -1;
+}
+
+
+@if (Model.Any())
+{
+    <table id="schedulesTable" class="table">
+        <thead>
+            <tr>
+                @*<td></td>*@
+                <td></td>
+                <td><label class="control-label">Travel Class</label></td>
+                <td><label class="control-label">Price</label></td>
+                <td><label class="control-label">Time</label></td>
+                <td><label class="control-label">Tickets Left</label></td>
+                <td><label class="control-label">Number of Tickets</label></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var scheduleTravelClass in Model)
+            {
+                i++;
+                <tr>
+                    @*<td>
+                            @Html.RadioButton("scheduleTravelClassId", scheduleTravelClass.Id,
+                            htmlAttributes: new
+                            {
+                                @class = "form-horizontal",
+                                required = "required",
+                                onchange = string.Format("SetTicketMax({0})", @scheduleTravelClass.GetRemainingSeats(date))
+                            })
+                        </td>*@
+                    <td>
+                        @Html.Hidden(string.Format("[{0}].ScheduleTravelClassId", i), scheduleTravelClass.Id)
+                        @Html.CheckBox(string.Format("[{0}].Checked", i), false,
+                        new
+                        {
+                            id = string.Format("checkbox{0}", i),
+                            //Style = "vertical-align:3px",
+                            textboxId = string.Format("numberOfTickets{0}", i),
+                            onChange = string.Format("SetCountRange('checkbox{0}')", i)
+                        })
+                    </td>
+                    <td>
+                        @scheduleTravelClass.TravelClass.Name
+                    </td>
+                    <td>
+                        @scheduleTravelClass.Price
+                    </td>
+                    <td>
+                        @scheduleTravelClass.Schedule.TimeOfDay
+                    </td>
+                    <td>
+                        @scheduleTravelClass.GetRemainingSeats(date)
+                        @Html.Hidden("date", date)
+                    </td>
+                    <td>
+                        @Html.TextBox(string.Format("[{0}].NumberOfTickets", i), 0,
+                        htmlAttributes: new
+                        {
+                            @class = "form-control col-md-1",
+                            type = "number",
+                            id = string.Format("numberOfTickets{0}", i),
+                            max = scheduleTravelClass.GetRemainingSeats(date),
+                            disabled="disabled"
+                        })
+                    </td>
+                </tr>
+
+
+            }
+        </tbody>
+
+    </table>
+
+    <div style="margin-left: -7em">
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("CustomerName", null, htmlAttributes: new { @class = "form-control col-md-3", required = "required" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("Email", null, htmlAttributes: new { @class = "form-control", type = "email" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.Label("Phone", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("Phone", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                @Html.Label("Payment Method", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("PaymentMethodId", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+        </div>
+
+        @*<div class="row">
+                <div class="form-group col-md-6">
+                    @Html.Label("Number of Tickets", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBox("NumberOfTickets", 1,
+                       htmlAttributes: new { @class = "form-control", type = "number", required = "required", min = "1", id= "numberOfTickets" })
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="row">
+            <div class="form-group col-md-6">
+                @Html.Label("", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="button" value="Book" class="btn btn-primary" onclick="ValidateForm()" />
+                </div>
+                <input id="submitBtn" type="submit" value="Book" class="btn btn-primary hidden"  />
+            </div>
+        </div>
+
+
+
+        @*<div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Book" class="btn btn-default" style="margin-left:10em" />
+                </div>
+            </div>*@
+
+    </div>
+
+}
+else
+{
+    <h3 style="text-align:center">No Results Found</h3>
+}
+
+

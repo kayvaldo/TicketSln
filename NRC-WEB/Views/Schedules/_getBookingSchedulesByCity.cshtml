@@ -1,0 +1,166 @@
+﻿@using NRC_WEB.Models
+@model IEnumerable<Schedule>
+
+@{
+    Dictionary<int, int> bookingsDictionary = (Dictionary<int, int>)ViewBag.BookingsDictionary;
+    var date = (DateTime)ViewBag.Date;
+    var bookingsGrouping = (IEnumerable<IGrouping<int?, Booking>>)ViewBag.BookingGroups;
+    int i = -1;
+}
+
+
+@if (Model.Any())
+{
+    <table id="schedulesTable" class="table">
+        <thead>
+            <tr>
+                <td align="center"><label class="control-label">Name</label></td>
+                <td align="center"></td>
+                <td align="center"><label class="control-label">Travel Class</label></td>
+                <td align="center"><label class="control-label">Price</label></td>
+                <td align="center"><label class="control-label">Tickets Left</label></td>
+                <td align="center"><label class="control-label">Number of Tickets</label></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in Model)
+            {
+                <tr>
+                    <td align="center" style="border:0"><label class="control-label">@string.Format("{0} ({1})", schedule.FullDisplayName, schedule.GetTimeOfDay())</label></td>
+                </tr>
+
+                foreach (var scheduleTravelClass in schedule.ScheduleTravelClasses)
+                {
+                    i++;
+                    <tr>
+                        <td></td>
+                        <td align="center">
+                            @Html.Hidden(string.Format("[{0}].ScheduleTravelClassId", i), scheduleTravelClass.Id)
+                            @Html.CheckBox(string.Format("[{0}].Checked", i), false,
+                        new
+                        {
+                            id = string.Format("checkbox{0}", i),
+                            //Style = "vertical-align:3px",
+                            textboxId = string.Format("numberOfTickets{0}", i),
+                            onChange = string.Format("SetCountRange('checkbox{0}')", i)
+                        })
+                        </td>
+                        <td align="center">
+                            @scheduleTravelClass.TravelClass.Name
+                        </td>
+                        <td align="center">
+                            @scheduleTravelClass.Price
+                        </td>
+                        @*<td align="center">
+                            @scheduleTravelClass.Schedule.TimeOfDay
+                        </td>*@
+                        <td align="center">
+                            @scheduleTravelClass.GetRemainingSeats(date)
+                            @Html.Hidden("date", date)
+                        </td>
+                        <td align="center">
+                            @Html.TextBox(string.Format("[{0}].NumberOfTickets", i), 0,
+                            htmlAttributes: new
+                            {
+                                @class = "form-control",
+                                type = "number",
+                                id = string.Format("numberOfTickets{0}", i),
+                                max = scheduleTravelClass.GetRemainingSeats(date),
+                                disabled = "disabled",
+                                style="width:5em;"
+                            })
+                        </td>
+                    </tr>
+
+
+                }
+            }
+           
+        </tbody>
+
+    </table>
+
+    <div style="margin-left: -7em">
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("CustomerName", null, htmlAttributes: new { @class = "form-control col-md-3", required = "required" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("Email", null, htmlAttributes: new { @class = "form-control", type = "email" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.Label("Phone", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.TextBox("Phone", null, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">         
+
+            <div class="form-group col-md-4">
+                @Html.Label("Payment Method", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("PaymentMethodId", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-4">
+                @Html.Label("Boarding Station", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.DropDownList("BoardingStationId", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                @Html.Label("", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="button" value="Book" class="btn btn-primary" onclick="ValidateForm()" />
+                </div>
+                <input id="submitBtn" type="submit" value="Book" class="btn btn-primary hidden" />
+            </div>
+        </div>
+      
+
+        @*<div class="row">
+                <div class="form-group col-md-6">
+                    @Html.Label("Number of Tickets", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBox("NumberOfTickets", 1,
+                       htmlAttributes: new { @class = "form-control", type = "number", required = "required", min = "1", id= "numberOfTickets" })
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="row">
+        
+        </div>
+
+
+
+        @*<div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Book" class="btn btn-default" style="margin-left:10em" />
+                </div>
+            </div>*@
+
+    </div>
+
+}
+else
+{
+    <h3 style="text-align:center">No Results Found</h3>
+}
+
+
